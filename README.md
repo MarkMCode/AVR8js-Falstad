@@ -11,6 +11,7 @@ To run this project, simply open /war/index.html in a compatible browser (known 
 4. Paste this into the text area on the right side of AVR8js-Falstad
 5. Select Draw => Add Arduino Pin and drag out an Arduino pin element (currently, they are drawn as voltage sources and the negative side must be connected to a ground element)
 6. Create your circuit and double click on each Arduino Pin element to change which pin it represents
+7. Run the Arduino script and ensure that the "Simulation Speed" slider is not zero
 
 ## Building
 To build the CircuitJS1 part of the application, follow the instructions at https://github.com/pfalstad/circuitjs1#building-the-web-application ***Note:You must be using GWT version 2.8.1 and JDK 1.8.0 to build this. The compiler argument -generateJsInteropExports must be passed***

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>AVR8js+Falstad</title>
+	<link rel="stylesheet" href="/AVR8js/src.18500bcb.css">
+  
+    <!-- Properties can be specified to influence deferred binding -->
+    <meta name='gwt:property' content='locale=en_UK'>
+
+
+<style>
+.disabled {
+	color: lightgray
+}
+.topSpace {
+	margin-top: 12px;
+}
+.cursorPointer {
+   cursor: default;
+}
+.cursorCross {
+   cursor: crosshair;
+}
+
+.cursorSplitter {
+   cursor: row-resize;
+}
+
+.gwt-MenuItem-disabled {
+	color: lightgray;
+}
+.offScreen {
+	position: absolute;
+	right: 101%;
+	overflow: hidden;
+}
+.gwt-Frame{
+	scrolling="no";
+	border: 0px !important;
+}
+
+.gwt-MenuItem {
+	font-size: 12px !important;
+}
+
+.gwt-MenuBar-horizontal {
+	font-size: 12px !important;
+	}
+	
+.gwt-Label-selected {
+	font-size: 1.3em;
+	font-weight: 700;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+.gwt-Label-1off {
+	color: DarkGray;
+}
+
+.gwt-Label-2off {
+	font-size:0.8em;
+	color: LightGray;
+}
+
+.gwt-Label-current {
+}
+
+.topButton-red {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left:5px;
+    padding: 5px 7px;
+    text-decoration: none;
+    color: #ffffff;
+    cursor: pointer;
+    cursor: hand;
+    font-size: small;
+    background-color: #ff0000; 
+    border: 1px solid #bbb;
+    border-bottom: 1px solid #a0a0a0;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+}
+
+.topButton {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left:5px;
+    padding: 5px 7px;
+    text-decoration: none;
+    cursor: pointer;
+    cursor: hand;
+    font-size: small;
+    background-color: #e7e7e7; 
+    border: 1px solid #bbb;
+    border-bottom: 1px solid #a0a0a0;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+}
+
+</style>
+</head>
+  <body>
+  <!-- Include the next line to allow support for dropbox import/export. You will need your own app key. -->
+  <!--<script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="YOUR_KEY"></script>-->
+   
+    <!-- This script tag is what actually loads the GWT module.  The -->
+    <!-- 'nocache.js' file (also called a "selection script") is     -->
+    <!-- produced by the GWT compiler in the module output directory -->
+    <!-- or generated automatically in development mode.             -->
+    <script language="javascript" src="circuitjs1/circuitjs1.nocache.js"></script>
+    
+    <!-- Include a history iframe to enable full GWT history support -->
+    <!-- (the id must be exactly as shown)                           -->
+    <iframe src="javascript:''" id="__gwt_historyFrame" style="width:0;height:0;border:0"></iframe>
+    <!-- Div to keep Falstad in left 50%, added by Mark Megarry -->
+    <div id="FalstadDiv" style="bottom: 0px; position: absolute; left: 0px; top: 0px; width: 50%; overflow: scroll;"></div>
+    <div id="scene3d" style="bottom: 0px; position: absolute; right: 0px; top: 0px; width: 50%; overflow: hidden;">
+			<h2>AVR8js LED Demo</h2> 
+			<div class="app-container"> 
+				<div class="toolbar"> 
+				    
+					<button id="run-button">Run</button> 
+					<button id="stop-button" disabled="">Stop</button> 
+					<div class="spacer"></div> <div id="status-label"></div> 
+				</div> 
+				<div> 
+					
+					<textarea id="textInput" rows="20" cols="100" style="line-height: 1.2em;"></textarea> 
+					<pre id="serial-output-text"></pre>
+					<!--Script uses AVR8js, used under the following license: https://github.com/wokwi/avr8js/blob/master/LICENSE -->
+					<!--script async src="/AVR8js/src.a3f48204.js"></script-->
+				</div> 
+			</div>
+	</div>
+    
+  </body>
+ </html>

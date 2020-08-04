@@ -16,7 +16,7 @@ To run this project, simply open /war/index.html in a compatible browser (known 
 ## Building
 To build the CircuitJS1 part of the application, follow the instructions at https://github.com/pfalstad/circuitjs1#building-the-web-application ***Note:You must be using GWT version 2.8.1 and JDK 1.8.0 to build this. The compiler argument -generateJsInteropExports must be passed***
 
-To build the avr8js part of the application, read the README in /avr8js and use "npm run-script build:demo". This utilises my edited package.json file.  The only  files I have edited are the index.ts and execute.ts files of the demo project
+To build the avr8js part of the application, read the README in /avr8js and use "npm run-script build:demo". This utilises my edited package.json file to build my edited version of the demo project.  
 
 To integrate these two, move the contents of /avr8js/demo/dist to /war/AVR8js and edit the JS file argument on line 99 of /src/com/lushprojects/circuitjs1/client/circuitjs1.java (motorScript.setPropertyString("src", "AVR8js/src.30e1f952.js")) to reflect the new file being used. 
 

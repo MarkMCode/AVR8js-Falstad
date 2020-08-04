@@ -2,7 +2,7 @@
 Project combining Wokwi's AVR8js Arduino simulator (https://github.com/wokwi/avr8js) and Paul Falstad's CircuitJS1 circuit simulator (https://github.com/pfalstad/circuitjs1).
 
 ## Running
-To run this project, simply open /war/index.html in a compatible browser (known to work with Chrome)
+To run this project, simply clone or download the repo and open /war/index.html in a compatible browser (known to work with Chrome)
 
 ## Using
 1. Write an Arduino script in the Arduino IDE

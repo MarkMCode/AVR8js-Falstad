@@ -41,7 +41,6 @@ public class ArduinoPinElm extends CircuitElm{
 }
    
    public void doStep(){
-       printTime();
        //Get state of pin and apply it to circuit simulation
        getState();
        switch(state) {

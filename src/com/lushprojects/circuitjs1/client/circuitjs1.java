@@ -96,7 +96,7 @@ public class circuitjs1 implements EntryPoint {
       //Add Arduino sim
 	     Element motorScript = DOM.createElement("script");
 	     motorScript.setPropertyString("type", "text/javascript");
-	     motorScript.setPropertyString("src", "AVR8js/src.30e1f952.js");
+	     motorScript.setPropertyString("src", "AVR8js/src.c44fec35.js");
 	     DOM.appendChild(DOM.getElementById("scene3d"), motorScript);
   }
 

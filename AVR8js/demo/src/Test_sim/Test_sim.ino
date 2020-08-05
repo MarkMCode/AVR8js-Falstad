@@ -1,3 +1,7 @@
+//Pin 7 is accessed by pin D7
+//Pin 13 is accessed by pin B5
+//Pin 11 is accessed by pin B3
+
 void setup() {
   pinMode(13, OUTPUT);
   pinMode(7, INPUT);

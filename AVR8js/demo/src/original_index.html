@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>AVR8js LED Demo</title>
+    <link href="//fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <h2>AVR8js LED Demo</h2>
+    <div class="app-container">
+      <div class="leds">
+        <wokwi-led color="green" label="13"></wokwi-led>
+        <wokwi-led color="red" label="12"></wokwi-led>
+      </div>
+      <div class="toolbar">
+        <button id="run-button">Run</button>
+        <button id="stop-button" disabled>Stop</button>
+        <button id="revert-button">Back to LEDS example</button>
+        <div class="spacer"></div>
+        <div id="status-label"></div>
+      </div>
+      <div class="code-editor"></div>
+      <div class="compiler-output">
+        <pre id="compiler-output-text"></pre>
+        <pre id="serial-output-text"></pre>
+      </div>
+    </div>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.20.0/min/vs/loader.js"></script>
+    <script src="./index.ts"></script>
+  </body>
+</html>

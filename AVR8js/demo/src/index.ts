@@ -10,16 +10,55 @@ import './index.css';
 import { EditorHistoryUtil } from './utils/editor-history.util';
 let editor: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
+const BLINK_CODE = `
+//Pin 7 is accessed by pin D7
+//Pin 13 is accessed by pin B5
+//Pin 11 is accessed by pin B3
+
+void setup() {
+  pinMode(13, OUTPUT);
+  pinMode(7, INPUT);
+  digitalWrite(13, LOW);
+  analogWrite(11, 100);
+   Serial.begin(115200);
+   Serial.println("Program is starting...");
+}
+
+void loop() {
+  if(digitalRead(7) == HIGH){
+    digitalWrite(13, HIGH);
+  }
+
+  else if(digitalRead(7) == LOW){
+    digitalWrite(13, LOW);
+  }
+}`.trim();
+
+// Load Editor
+declare const window: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+declare const monaco: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+window.require.config({
+  paths: { vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.20.0/min/vs' },
+});
+window.require(['vs/editor/editor.main'], () => {
+  editor = monaco.editor.create(document.querySelector('.code-editor'), {
+    value: EditorHistoryUtil.getValue() || BLINK_CODE,
+    language: 'cpp',
+    minimap: { enabled: false },
+  });
+});
+
 const runButton = document.querySelector('#run-button');
 runButton.addEventListener('click', compileAndRun);
 const stopButton = document.querySelector('#stop-button');
 stopButton.addEventListener('click', stopCode);
+const revertButton = document.querySelector('#revert-button');
+revertButton.addEventListener('click', setBlinkSnippet);
 const statusLabel = document.querySelector('#status-label');
 const compilerOutputText = document.querySelector('#compiler-output-text');
 const serialOutputText = document.querySelector('#serial-output-text');
 
 function executeProgram(hex: string) {
-   //globalThis.buttonState = false;
    globalThis.Runner = new AVRRunner(hex);
    const MHZ = 16000000;
 
@@ -35,34 +74,35 @@ function executeProgram(hex: string) {
 }
 
 async function compileAndRun() {
-  //Read user input 
-  var sourceCode = document.getElementById("textInput").value;
-  if(sourceCode != ""){
-	  runButton.setAttribute('disabled', '1');
-	  serialOutputText.textContent = '';
-	  try {
-		//statusLabel.textContent = 'Compiling...';
-		const result = sourceCode//await buildHex(sourceCode);
-		//compilerOutputText.textContent = result.stderr || result.stdout;
-		if (result) {
-		  //compilerOutputText.textContent += '\nProgram running...';
-		  stopButton.removeAttribute('disabled');
-		  executeProgram(result)//.hex);
-		} else {
-		  runButton.removeAttribute('disabled');
-		}
-	  } catch (err) {
-		runButton.removeAttribute('disabled');
-		//revertButton.removeAttribute('disabled');
-		alert('Failed: ' + err);
-	  } finally {
-		//statusLabel.textContent = '';
-	  }
+  storeUserSnippet();
+
+  runButton.setAttribute('disabled', '1');
+  revertButton.setAttribute('disabled', '1');
+
+  serialOutputText.textContent = '';
+  try {
+    statusLabel.textContent = 'Compiling...';
+    const result = await buildHex(editor.getModel().getValue());
+    compilerOutputText.textContent = result.stderr || result.stdout;
+    if (result.hex) {
+      compilerOutputText.textContent += '\nProgram running...';
+      stopButton.removeAttribute('disabled');
+      executeProgram(result.hex);
+    } else {
+      runButton.removeAttribute('disabled');
+    }
+  } catch (err) {
+    runButton.removeAttribute('disabled');
+    revertButton.removeAttribute('disabled');
+    alert('Failed: ' + err);
+  } finally {
+    statusLabel.textContent = '';
   }
-  else{
-	  alert("ERROR, EXPECTED HEX CODE INPUT");
-  }
-  
+}
+
+function storeUserSnippet() {
+  EditorHistoryUtil.clearSnippet();
+  EditorHistoryUtil.storeSnippet(editor.getValue());
 }
 
 function stopCode() {
@@ -73,4 +113,9 @@ function stopCode() {
     globalThis.Runner.stop();
     globalThis.Runner = null;
   }
+}
+
+function setBlinkSnippet() {
+  editor.setValue(BLINK_CODE);
+  EditorHistoryUtil.storeSnippet(editor.getValue());
 }

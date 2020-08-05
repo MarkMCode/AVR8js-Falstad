@@ -5,7 +5,8 @@ resistors.txt Resistors
 cap.txt Capacitor
 induct.txt Inductor
 lrc.txt LRC Circuit
->MotorSim.txt Motor simulation
+MotorSim.txt Motor simulation
+>ArduinoSim.txt.txt Arduino sim demo
 voltdivide.txt Voltage Divider
 pot.txt Potentiometer
 potdivide.txt Potentiometer Divider

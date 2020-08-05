@@ -3,8 +3,9 @@
   <head>
   	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link href="http://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" />
 	<title>AVR8js+Falstad</title>
-	<link rel="stylesheet" href="/AVR8js/src.18500bcb.css">
+	<link rel="stylesheet" href="./AVR8js/src.18500bcb.css" />
   
     <!-- Properties can be specified to influence deferred binding -->
     <meta name='gwt:property' content='locale=en_UK'>
@@ -118,22 +119,24 @@
     <!-- Div to keep Falstad in left 50%, added by Mark Megarry -->
     <div id="FalstadDiv" style="bottom: 0px; position: absolute; left: 0px; top: 0px; width: 50%; overflow: scroll;"></div>
     <div id="scene3d" style="bottom: 0px; position: absolute; right: 0px; top: 0px; width: 50%; overflow: hidden;">
-			<h2>AVR8js LED Demo</h2> 
-			<div class="app-container"> 
-				<div class="toolbar"> 
-				    
-					<button id="run-button">Run</button> 
-					<button id="stop-button" disabled="">Stop</button> 
-					<div class="spacer"></div> <div id="status-label"></div> 
-				</div> 
-				<div> 
-					
-					<textarea id="textInput" rows="20" cols="100" style="line-height: 1.2em;"></textarea> 
-					<pre id="serial-output-text"></pre>
-					<!--Script uses AVR8js, used under the following license: https://github.com/wokwi/avr8js/blob/master/LICENSE -->
-					<!--script async src="/AVR8js/src.a3f48204.js"></script-->
-				</div> 
+		
+			<h2>Paste Arduino code here!</h2> 
+			<div class="app-container">
+			  <div class="toolbar">
+				<button id="run-button">Run</button>
+				<button id="stop-button" disabled>Stop</button>
+				<button id="revert-button">Back to original example</button>
+				<div class="spacer"></div>
+				<div id="status-label"></div>
+			  </div>
+			  <div class="code-editor"></div>
+			  <div class="compiler-output">
+				<pre id="compiler-output-text"></pre>
+				<pre id="serial-output-text"></pre>
+			  </div>
+			  <script src="http://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.20.0/min/vs/loader.js"></script>
 			</div>
+			
 	</div>
     
   </body>

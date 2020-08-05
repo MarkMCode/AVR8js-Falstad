@@ -5,15 +5,11 @@ Project combining Wokwi's AVR8js Arduino simulator (https://github.com/wokwi/avr
 To run this project, simply clone or download the repo and open /war/index.html in a compatible browser (known to work with Chrome)
 
 ## Using
-1. Write an Arduino script in the Arduino IDE
-2. Select Sketch => Export compiled binary (Alternatively, an example program is available in /avr8js/demo/src/Test_sim/Test_sim.ino.standard.hex)
-3. Open the compiled hex file in a text editor and copy the contents to clipboard 
-4. Paste this into the text area on the right side of AVR8js-Falstad
-5. Select Draw => Add Arduino Pin and drag out an Arduino pin element (currently, they are drawn as voltage sources and the negative side must be connected to a ground element)
-6. Create your circuit and double click on each Arduino Pin element to change which pin it represents
-7. Run the Arduino script and ensure that the "Simulation Speed" slider is not zero
-
-If you're using the example code in /avr8js/demo/src/Test_sim/, you should be able to use pin D7 as an input and B5 as a digital output which reflects the state of D7.  B3 acts as an analog output, you can vary the simulation speed to visualise the action of PWM!
+1. Copy and paste an Arduino script into the text editor on the right side of the screen
+2. Click "Run"
+3. Double-click on each Arduino pin to assign it to an AVR8js pin
+4. Create your own circuits by selecting Draw => Arduino Pin and dragging out Arduino pins (Arduino pins must have the "negative" node connected to a ground element)
+5. Ensure that simulation speed is not set to 0!
 
 ## Building
 To build the CircuitJS1 part of the application, follow the instructions at https://github.com/pfalstad/circuitjs1#building-the-web-application ***Note:You must be using GWT version 2.8.1 and JDK 1.8.0 to build this. The compiler argument -generateJsInteropExports must be passed***

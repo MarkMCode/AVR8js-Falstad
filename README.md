@@ -11,9 +11,6 @@ To run this project, simply clone or download the repo and open /war/index.html 
 4. Create your own circuits by selecting Draw => Arduino Pin and dragging out Arduino pins (Arduino pins must have the "negative" node connected to a ground element)
 5. Ensure that simulation speed is not set to 0!
 
-
-If you're using the example code in /avr8js/demo/src/Test_sim/, you should be able to use pin D7 as an input and B5 as a digital output which reflects the state of D7.  B3 acts as an analog output, you can vary the simulation speed to visualise the action of PWM!
-
 ## Building
 To build the CircuitJS1 part of the application, follow the instructions at https://github.com/pfalstad/circuitjs1#building-the-web-application ***Note:You must be using GWT version 2.8.1 and JDK 1.8.0 to build this. The compiler argument -generateJsInteropExports must be passed***
 

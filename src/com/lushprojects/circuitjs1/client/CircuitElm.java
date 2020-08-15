@@ -24,8 +24,7 @@ import com.google.gwt.i18n.client.NumberFormat;
 import jsinterop.annotations.JsType;	//Required for JsInterop
 import jsinterop.annotations.JsPackage;	//Required for jsInterop
 
-// circuit element class
-//@JsType(isNative = false, namespace = JsPackage.GLOBAL)	//JsInterop setup
+
 public abstract class CircuitElm implements Editable {
     static double voltageRange = 5;
     static int colorScaleCount = 32;

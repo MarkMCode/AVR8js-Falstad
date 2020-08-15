@@ -94,10 +94,10 @@ public class circuitjs1 implements EntryPoint {
       loadLocale();
       
       //Add Arduino sim
-	     Element motorScript = DOM.createElement("script");
-	     motorScript.setPropertyString("type", "text/javascript");
-	     motorScript.setPropertyString("src", "AVR8js/src.c44fec35.js");
-	     DOM.appendChild(DOM.getElementById("scene3d"), motorScript);
+	     Element AVRScript = DOM.createElement("script");
+	     AVRScript.setPropertyString("type", "text/javascript");
+	     AVRScript.setPropertyString("src", "AVR8js/src.c44fec35.js");
+	     DOM.appendChild(DOM.getElementById("scene3d"), AVRScript);
   }
 
   native String language()  /*-{ // Modified to support Electron which return empty array for navigator.languages

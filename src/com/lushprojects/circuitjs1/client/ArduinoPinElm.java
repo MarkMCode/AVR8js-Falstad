@@ -15,29 +15,30 @@ public class ArduinoPinElm extends CircuitElm{
    public String port;
    int portInt;
    public int pin;
-   public int state = 2;
+   public int state = 2;	//Start as an input pin.	//0 = output low, 1 = output high, 2 = input
    int prevState = 2;	//Save previous state. All pins start in state 2 currently
-   double resistance = 100 * Math.pow(10, 6);	//Resistance of Arduino pin is equivalent to 100 megaOhms: https://www.arduino.cc/en/Tutorial/DigitalPins
-   
-   //Define port mappings
-   static final int B = 0;
-   static final int C = 1;
-   static final int D = 2;
+   double resistance = 100 * Math.pow(10, 6);	//Resistance of input Arduino pin is equivalent to 100 megaOhms: https://www.arduino.cc/en/Tutorial/DigitalPins
    
    @JsIgnore
    public ArduinoPinElm(int xx, int yy){	//Constructor for when object is dragged out by user
-       super(xx, yy);				//May need to create private constructor for when circuit is loaded
-       pin = 0;
+       super(xx, yy);				
+       pin = 0;		//Set pin to B0 whenever it is dragged out
        port = "B";
-       
    }
    
    @JsIgnore
    public ArduinoPinElm(int xa, int ya, int xb, int yb, int f,
 	    StringTokenizer st) {
    super(xa, ya, xb, yb, f);
-   pin = 0;
-   port = "B";
+   try {
+	    portInt = new Integer(st.nextToken()).intValue();	//Set portInt (ints are easy to deal with in this context)
+	    pin = new Integer(st.nextToken()).intValue();	//Set pin
+	} catch (Exception e) {}
+   switch(portInt) {	//Set port based on portInt (easier than dealing with strings in this context)
+   case 0: port = "B"; break;
+   case 1: port = "C"; break;
+   case 2: port = "D"; break;
+   }
 }
    
    public void doStep(){
@@ -58,9 +59,7 @@ public class ArduinoPinElm extends CircuitElm{
 
        	break;
         case 2:	//Pin is an input
-	   /*voltage = 0.0;
-	   this.volts[0] = 0.0;
-	   this.volts[1] = 0.0;*/
+            //Check what state to send to AVR8js
 	   inputVoltage = getVoltageDiff();
 	   if(inputVoltage >= 3.0) {	//Above high input threshold
 	       //state = 1;
@@ -75,7 +74,7 @@ public class ArduinoPinElm extends CircuitElm{
 	   
 	break;
        }
-       if(prevState != state) {
+       if(prevState != state) {		//If state has changed, circuit must be analysed
 	   sim.needAnalyze();    //Analyse circuit
        }
        prevState = state;	//Save state
@@ -87,18 +86,18 @@ public class ArduinoPinElm extends CircuitElm{
    }
 	
    //Get state of pin and save to state var
-   public native int getState() /*-{
+   //Use of eval is potentially dangerous as it can allow the user to execute arbitrary code
+   public native void getState() /*-{
        if(typeof $wnd.Runner !== "undefined"){	//Check for Runner
-        	//this.state = $wnd.Runner.portB.pinState(5);
-        	this.state = $wnd.eval("Runner.port"+this.port+".pinState("+this.pin+");");
-       }
+        	this.state = $wnd.eval("Runner.port"+this.port+".pinState("+this.pin+");");	//TODO Ensure that port and pin are as expected,
+       }											//i.e., they are a single char or int and not malicious arbitrary code
     }-*/;
     
    //Set state of pin
    public native void setState(String definedState) /*-{  //Check for Runner
            if(typeof $wnd.Runner !== "undefined"){
-           $wnd.eval("Runner.port"+this.port+".setPin("+this.pin+","+definedState+");")
-           //refresh state of this pin
+           $wnd.eval("Runner.port"+this.port+".setPin("+this.pin+","+definedState+");")		//TODO Ensure that port and pin are as expected,
+           //refresh state of this pin								//i.e., they are a single char or int and not malicious arbitrary code
            this.getState();
        }
    }-*/;
@@ -134,24 +133,24 @@ public class ArduinoPinElm extends CircuitElm{
    
    double getVoltage() {return voltage;}
    
-   void getInfo(String arr[]) {
+   void getInfo(String arr[]) {		//Store information about element
   	arr[0] = "Arduino pin"; 	
   	arr[1] = "I = " + getCurrentText(getCurrent());
   	arr[2] = getVoltageText(getVoltageDiff());
       }
    
-   double getPower() { return -getVoltageDiff()*current; }
+   double getPower() { return -getVoltageDiff()*current; }	//Return power through element
    
-   double getVoltageDiff() {
-       if(state == 2) {
+   double getVoltageDiff() {	//Return voltage across element
+       if(state == 2) {		//If pin is an input, return voltage across internal resistor
 	   return volts[1] - volts[2];
        }
-       else {
+       else {	//Otherwise return voltage between two terminals
 	   return volts[1] - volts[0];
        }
    }
    
-   public EditInfo getEditInfo(int n) {
+   public EditInfo getEditInfo(int n) {		//User-input box
        if(n == 0) {
 	   EditInfo ei =  new EditInfo("Arduino port", portInt);
 	   ei.choice = new Choice();
@@ -168,10 +167,10 @@ public class ArduinoPinElm extends CircuitElm{
        return null;
    }
    
-   public void setEditValue(int n, EditInfo ei) {
+   public void setEditValue(int n, EditInfo ei) {	//Act on user input
        if(n == 0) {
 	   portInt = ei.choice.getSelectedIndex();
-	   switch(portInt) {
+	   switch(portInt) {	//Set port
 	   case 0: port = "B"; break;
 	   case 1: port = "C"; break;
 	   case 2: port = "D"; break;
@@ -179,12 +178,12 @@ public class ArduinoPinElm extends CircuitElm{
        }
        
        if(n == 1) {
-	   pin = (int)ei.value;
+	   pin = (int)ei.value;	//Set pin
        }
        getState();
    }
    
-   void stamp() {
+   void stamp() {	//Update matrix
        getState();
        if(state == 2) {	//Input pin
 	   sim.stampVoltageSource(nodes[0], nodes[2], voltSource,
@@ -200,33 +199,30 @@ public class ArduinoPinElm extends CircuitElm{
    }
    
    int getInternalNodeCount() {
-       //getState();
-       if(state == 2) {
+       if(state == 2) {	//Pin is an input and therefore has an internal resistor
 	   return 1;
        }
-       else {return 0;}
+       else {return 0;}	//Pin is an output
    }
    
    String dump() {
-	// set flag so we know if duty cycle is correct for pulse waveforms
-	//flags &= ~4;
-       return super.dump() + " " + volts[0];
+       return super.dump() + " " + portInt + " " + pin;	//Save portInt and pin
    }
    int getDumpType() { return 412; }
-   boolean nonLinear() { return true; }
+   boolean nonLinear() { return true; }	//Check this
    double getCurrent(){
-       if (state == 2) {
+       if (state == 2) {	//If pin is an input, we are interested in the current entering it
 	   return current * -1;
        }
        else {return current;}
    }
    
-   public double getTime() {
+   public double getTime() {	//Return simulation time
        return circuitjs1.mysim.t;
    }
    
    public native void printTime() /*-{
-   console.log(this.getTime());
+   console.log(this.getTime());		//Print simulation time to console
 }-*/;
 	
 }

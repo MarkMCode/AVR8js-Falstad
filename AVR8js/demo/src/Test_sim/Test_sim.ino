@@ -3,6 +3,8 @@
 //Pin 11 is accessed by pin B3
 
 void setup() {
+  pinMode(0, OUTPUT);
+  digitalWrite(0, HIGH);
   pinMode(13, OUTPUT);
   pinMode(7, INPUT);
   digitalWrite(13, LOW);
@@ -14,6 +16,7 @@ void setup() {
 void loop() {
   if(digitalRead(7) == HIGH){
     digitalWrite(13, HIGH);
+    //Serial.println(analogRead(A1));
   }
 
   else if(digitalRead(7) == LOW){

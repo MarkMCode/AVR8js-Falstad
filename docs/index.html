@@ -104,6 +104,8 @@
 </style>
 </head>
   <body>
+  <!-- Allow for communication between simulations -->
+  <script src = "global.js"></script>
   <!-- Include the next line to allow support for dropbox import/export. You will need your own app key. -->
   <!--<script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="YOUR_KEY"></script>-->
    
@@ -135,8 +137,7 @@
 				<pre id="serial-output-text"></pre>
 			  </div>
 			  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.20.0/min/vs/loader.js"></script>
-			  <b>Demo instructions: Press "Run" and click on the switch in the circuit simulation!</b>
-			
+			  <b>NOTE: You will need to manually set the port/pin of each pin element by double-clicking on it and checking the comments at the top of the Arduino script.</b> 
 			</div>
 			
 	</div>

@@ -24,6 +24,8 @@ public class ArduinoPinElm extends CircuitElm{
        super(xx, yy);				
        pin = 0;		//Set pin to B0 whenever it is dragged out
        port = "B";
+       checkAnalogArray();	//Create aanlogArray if necessary
+       
    }
    
    @JsIgnore
@@ -39,6 +41,7 @@ public class ArduinoPinElm extends CircuitElm{
    case 1: port = "C"; break;
    case 2: port = "D"; break;
    }
+   checkAnalogArray();	//Create analogArray if necessary
 }
    
    public void doStep(){
@@ -59,17 +62,22 @@ public class ArduinoPinElm extends CircuitElm{
 
        	break;
         case 2:	//Pin is an input
-            //Check what state to send to AVR8js
-	   inputVoltage = getVoltageDiff();
-	   if(inputVoltage >= 3.0) {	//Above high input threshold
-	       //state = 1;
-	       setState("true");
-	   }
-	   
-	   else if(inputVoltage <= 1.5) {	//Below low input threshold
-	       //state = 0;
-	       setState("false");
-	   }
+            inputVoltage = getVoltageDiff();
+            if(port != "C") {
+                    //Check what state to send to AVR8js
+        	   if(inputVoltage >= 3.0) {	//Above high input threshold
+        	       //state = 1;
+        	       setState("true");
+        	   }
+        	   
+        	   else if(inputVoltage <= 1.5) {	//Below low input threshold
+        	       //state = 0;
+        	       setState("false");
+        	   }
+            }
+            else {
+        	setAnalogArray(ADCoutput(inputVoltage));
+            }
 	   
 	   
 	break;
@@ -88,20 +96,35 @@ public class ArduinoPinElm extends CircuitElm{
    //Get state of pin and save to state var
    //Use of eval is potentially dangerous as it can allow the user to execute arbitrary code
    public native void getState() /*-{
-       if(typeof $wnd.Runner !== "undefined"){	//Check for Runner
-        	this.state = $wnd.eval("Runner.port"+this.port+".pinState("+this.pin+");");	//TODO Ensure that port and pin are as expected,
+       if(typeof $wnd.AVR8jsFalstad.Runner !== "undefined"){	//Check for Runner
+        	this.state = $wnd.eval("AVR8jsFalstad.Runner.port"+this.port+".pinState("+this.pin+");");	//TODO Ensure that port and pin are as expected,
        }											//i.e., they are a single char or int and not malicious arbitrary code
     }-*/;
     
    //Set state of pin
    public native void setState(String definedState) /*-{  //Check for Runner
-           if(typeof $wnd.Runner !== "undefined"){
-           $wnd.eval("Runner.port"+this.port+".setPin("+this.pin+","+definedState+");")		//TODO Ensure that port and pin are as expected,
+           if(typeof $wnd.AVR8jsFalstad.Runner !== "undefined"){
+           $wnd.eval("AVR8jsFalstad.Runner.port"+this.port+".setPin("+this.pin+","+definedState+");")		//TODO Ensure that port and pin are as expected,
            //refresh state of this pin								//i.e., they are a single char or int and not malicious arbitrary code
            this.getState();
        }
    }-*/;
    
+   //Set analog array value
+   public native void setAnalogArray(int adc) /*-{
+       $wnd.eval("AVR8jsFalstad.analogArray["+this.pin+"] = " + adc+";");
+   }-*/;
+   
+   //Check for presence of analogArray and create if it doesn't exist
+   public native void checkAnalogArray() /*-{
+       if (!($wnd.AVR8jsFalstad.analogArray instanceof Array)) {
+    		$wnd.AVR8jsFalstad.analogArray = [];
+	}
+   }-*/;
+   //Calculates approximate ADC value from a voltage.  Somewhat inaccurate and perhaps more precise than the real ADC
+    int ADCoutput(double voltage) {
+	return (int)((1023.0/5.0) * voltage);
+    }
    //Calculate lead length when drawn
    void setPoints() {
 	super.setPoints();
@@ -222,7 +245,7 @@ public class ArduinoPinElm extends CircuitElm{
    }
    
    public native void printTime() /*-{
-   console.log(this.getTime());		//Print simulation time to console
-}-*/;
+   	console.log(this.getTime());		//Print simulation time to console
+   }-*/;
 	
 }

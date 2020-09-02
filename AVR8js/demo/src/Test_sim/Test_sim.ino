@@ -8,7 +8,7 @@ void setup() {
   pinMode(13, OUTPUT);
   pinMode(7, INPUT);
   digitalWrite(13, LOW);
-  analogWrite(11, 100);
+  //analogWrite(11, 100);
    Serial.begin(115200);
    Serial.println("Program is starting...");
 }
@@ -16,11 +16,17 @@ void setup() {
 void loop() {
   if(digitalRead(7) == HIGH){
     digitalWrite(13, HIGH);
-    //Serial.println(analogRead(A1));
+    Serial.println(analogRead(A0));
+    Serial.println(analogRead(A1));
+    Serial.println(analogRead(A2));
+    Serial.println(analogRead(A3));
+    Serial.println(analogRead(A4));
+    Serial.println(analogRead(A5));
   }
 
   else if(digitalRead(7) == LOW){
     digitalWrite(13, LOW);
   }
+  //Serial.println(analogRead(A0));
 
 }

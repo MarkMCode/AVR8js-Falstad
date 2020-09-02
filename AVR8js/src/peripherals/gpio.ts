@@ -198,6 +198,16 @@ export class AVRIOPort {
     }
     this.updatePinRegister(this.cpu.data[this.portConfig.PORT], this.cpu.data[this.portConfig.DDR]);
   }
+  
+  /*
+  * Will set the output of the ADC and sets analogReadFinished flag
+  * Written by Mark Megarry
+  */
+  setAnalogValue(analogValue: number){
+	  	//Write analogValue to ADCH and ADCL
+        this.cpu.data[0x78] = analogValue & 0xff;
+        this.cpu.data[0x79] = (analogValue >> 8) & 0x3;
+  }
 
   private updatePinRegister(port: u8, ddr: u8) {
     this.cpu.data[this.portConfig.PIN] = (this.pinValue & ~ddr) | (port & ddr);

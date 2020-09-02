@@ -59,14 +59,14 @@ const compilerOutputText = document.querySelector('#compiler-output-text');
 const serialOutputText = document.querySelector('#serial-output-text');
 
 function executeProgram(hex: string) {
-   globalThis.Runner = new AVRRunner(hex);
+   globalThis.AVR8jsFalstad.Runner = new AVRRunner(hex);
    const MHZ = 16000000;
 
-  globalThis.Runner.usart.onByteTransmit = (value) => {
+  globalThis.AVR8jsFalstad.Runner.usart.onByteTransmit = (value) => {
     serialOutputText.textContent += String.fromCharCode(value);
   };
-  const cpuPerf = new CPUPerformance(globalThis.Runner.cpu, MHZ);
-  globalThis.Runner.execute((cpu) => {
+  const cpuPerf = new CPUPerformance(globalThis.AVR8jsFalstad.Runner.cpu, MHZ);
+  globalThis.AVR8jsFalstad.Runner.execute((cpu) => {
     const time = formatTime(cpu.cycles / MHZ);
     const speed = (cpuPerf.update() * 100).toFixed(0);
     statusLabel.textContent = `Simulation time: ${time} (${speed}%)`;
@@ -109,9 +109,9 @@ function stopCode() {
   stopButton.setAttribute('disabled', '1');
   runButton.removeAttribute('disabled');
   //revertButton.removeAttribute('disabled');
-  if (globalThis.Runner) {
-    globalThis.Runner.stop();
-    globalThis.Runner = null;
+  if (globalThis.AVR8jsFalstad.Runner) {
+    globalThis.AVR8jsFalstad.Runner.stop();
+    globalThis.AVR8jsFalstad.Runner = null;
   }
 }
 

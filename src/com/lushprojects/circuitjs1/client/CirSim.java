@@ -4477,7 +4477,8 @@ MouseOutHandler, MouseWheelHandler {
     }
     
     public void onPreviewNativeEvent(NativePreviewEvent e) {
-    	int cc=e.getNativeEvent().getCharCode();
+	
+    	/*int cc=e.getNativeEvent().getCharCode();
     	int t=e.getTypeInt();
     	int code=e.getNativeEvent().getKeyCode();
     	if (dialogIsShowing()) {
@@ -4579,7 +4580,7 @@ MouseOutHandler, MouseWheelHandler {
 			    tempMouseMode = mouseMode;
 			    e.cancel();    			
     		}
-    	}
+    	} Temporarily removed by Mark Megarry, this function seems to block text from being entered in AVR8js*/
     }
     
     // factors a matrix into upper and lower triangular matrices by

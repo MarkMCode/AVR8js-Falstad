@@ -19,7 +19,6 @@ import { MicroTaskScheduler } from './task-scheduler';
 
 // ATmega328p params
 const FLASH = 0x8000;
-
 export class AVRRunner {
   readonly program = new Uint16Array(FLASH);
   readonly cpu: CPU;
@@ -34,7 +33,6 @@ export class AVRRunner {
   readonly workUnitCycles = 500000;
   readonly taskScheduler = new MicroTaskScheduler();
 
-  globalThis.CircuitTime = 0;	//Added by Mark Megarry
   constructor(hex: string) {
     loadHex(hex, new Uint8Array(this.program.buffer));
     this.cpu = new CPU(this.program);
@@ -45,18 +43,31 @@ export class AVRRunner {
     this.portC = new AVRIOPort(this.cpu, portCConfig);
     this.portD = new AVRIOPort(this.cpu, portDConfig);
     this.usart = new AVRUSART(this.cpu, usart0Config, this.speed);
+	
+	// Simulate analog port (so that analogRead() eventually return)
+    this.cpu.writeHooks[0x7a] = value => {
+		//globalThis.console.log(value);	Check what value is
+      if (value & (1 << 6)) {
+        this.cpu.data[0x7a] = value & ~(1 << 6); // clear bit - conversion done
+		const ADMUXval = this.cpu.data[0x7c];	//Value held in ADMUX selection register
+		const analogPin = ADMUXval & 15;	//Apply mask to clear first 4 bits as only latter half is important for selection
+		globalThis.AVR8jsFalstad.Runner.portC.setAnalogValue(globalThis.AVR8jsFalstad.analogArray[analogPin]);
+        return true; // don't update
+      }
+    };
+	
     this.taskScheduler.start();
-	globalThis.CircuitTime = new JSCircuitTime;	//Added by Mark Megarry
-	globalThis.prevTime = CircuitTime.getTime(); //Added by Mark Megarry
+	globalThis.AVR8jsFalstad.CircuitTime = new globalThis.JSCircuitTime;	//Added by Mark Megarry
+	globalThis.AVR8jsFalstad.prevTime = globalThis.AVR8jsFalstad.CircuitTime.getTime(); //Added by Mark Megarry
   }
 	
   // CPU main loop
   //var timeDiff = globalThis.CircuitTime.getTime() - prevTime;
   //var timeBasedCycles = timeDiff*speed;
   execute(callback: (cpu: CPU) => any) {
-	var timeDiff = globalThis.CircuitTime.getTime() - globalThis.prevTime;	//Added by Mark Megarry
-	globalThis.timeBasedCycles = timeDiff*this.speed;	//Added by Mark Megarry
-    const cyclesToRun = this.cpu.cycles + globalThis.timeBasedCycles; //Edited by Mark Megarry
+	var timeDiff = globalThis.AVR8jsFalstad.CircuitTime.getTime() - globalThis.AVR8jsFalstad.prevTime;	//Added by Mark Megarry
+	globalThis.AVR8jsFalstad.timeBasedCycles = timeDiff*this.speed;	//Added by Mark Megarry
+    const cyclesToRun = this.cpu.cycles + globalThis.AVR8jsFalstad.timeBasedCycles; //Edited by Mark Megarry
     while (this.cpu.cycles < cyclesToRun) {
       avrInstruction(this.cpu);
       this.timer0.tick();
@@ -66,7 +77,7 @@ export class AVRRunner {
 	  
     }
 	//prevTime = CircuitTime.getTime();
-	globalThis.prevTime = globalThis.CircuitTime.getTime();	//Added by Mark Megarry
+	globalThis.AVR8jsFalstad.prevTime = globalThis.AVR8jsFalstad.CircuitTime.getTime();	//Added by Mark Megarry
     callback(this.cpu);
     this.taskScheduler.postTask(() => this.execute(callback));
   }

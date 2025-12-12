@@ -1,6 +1,9 @@
 # AVR8js-Falstad
 Project combining Wokwi's AVR8js Arduino simulator (https://github.com/wokwi/avr8js) and Paul Falstad's CircuitJS1 circuit simulator (https://github.com/pfalstad/circuitjs1).
 
+## Security note
+This project is not being actively maintained, and as such may contain outdated or vulnerable dependencies.
+
 ## Running
 To run this project, simply clone or download the repo and open /war/index.html in a compatible browser (known to work with Chrome)
 

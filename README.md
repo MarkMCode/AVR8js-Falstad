@@ -5,7 +5,9 @@ Project combining Wokwi's AVR8js Arduino simulator (https://github.com/wokwi/avr
 This project is not being actively maintained, and as such may contain outdated or vulnerable dependencies.
 
 ## Running
-To run this project, simply clone or download the repo and open /war/index.html in a compatible browser (known to work with Chrome)
+To run this project, simply clone or download the repo and open /war/index.html in a compatible browser (known to work with Chrome).
+
+You may need to disable CORS-related security features of your web browser for the application to work. On Linux, opening Chromium with ```chromium --disable-web-security --user-data-dir=[absolute_path_to_repo]``` should work, but **this is unsafe**.
 
 ## Using
 1. Copy and paste an Arduino script into the text editor on the right side of the screen

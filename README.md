@@ -17,11 +17,11 @@ You may need to disable CORS-related security features of your web browser for t
 5. Ensure that simulation speed is not set to 0!
 
 ## Building
-To build the CircuitJS1 part of the application, follow the instructions at https://github.com/pfalstad/circuitjs1#building-the-web-application ***Note:You must be using GWT version 2.8.1 and JDK 1.8.0 to build this. The compiler argument -generateJsInteropExports must be passed***
+To build the avr8js part of the application, first [install npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm). Once NPM is installed, navigate to ```/AVR8js```, run ```npm install```, and use ```npm run-script build:demo```. This utilises my edited package.json file to build my edited version of the demo project. **NOTE: It is recommended that you check for NPM package upgrades before running ```npm install```.  
 
-To build the avr8js part of the application, read the README in /avr8js and use "npm run-script build:demo". This utilises my edited package.json file to build my edited version of the demo project.  
+To build the CircuitJS1 part of the application, follow the instructions at https://github.com/pfalstad/circuitjs1#building-the-web-application ***Note:Built successfully using GWT version 2.12.1 and JavaSE-25, other versions may fail. The compiler argument -generateJsInteropExports must be passed***
 
-To integrate these two, move the contents of /avr8js/demo/dist to /war/AVR8js and edit the JS file argument on line 99 of /src/com/lushprojects/circuitjs1/client/circuitjs1.java (motorScript.setPropertyString("src", "AVR8js/src.30e1f952.js")) to reflect the new file being used. 
+To integrate these two, move the contents of /avr8js/demo/dist to /war/AVR8js and edit the JS file argument on line 99 of /src/com/lushprojects/circuitjs1/client/circuitjs1.java (motorScript.setPropertyString("src", "AVR8js/src.30e1f952.js")) to reflect the new file being used. Rebuild CircuitJS1 as above, and open /war/index.html 
 
 
 ## License information

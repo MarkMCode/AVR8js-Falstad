@@ -17,7 +17,7 @@ You may need to disable CORS-related security features of your web browser for t
 5. Ensure that simulation speed is not set to 0!
 
 ## Building
-To build the avr8js part of the application, first [install npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm). Once NPM is installed, navigate to ```/AVR8js```, run ```npm install```, and use ```npm run-script build:demo```. This utilises my edited package.json file to build my edited version of the demo project. **NOTE: It is recommended that you check for NPM package upgrades before running ```npm install```.  
+To build the avr8js part of the application, first [install npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm). Once NPM is installed, navigate to ```/AVR8js```, run ```npm install```, and use ```npm run-script build:demo```. This utilises my edited package.json file to build my edited version of the demo project. **NOTE: It is recommended that you check for NPM package upgrades before running ```npm install```**.  
 
 To build the CircuitJS1 part of the application, follow the instructions at https://github.com/pfalstad/circuitjs1#building-the-web-application ***Note:Built successfully using GWT version 2.12.1 and JavaSE-25, other versions may fail. The compiler argument -generateJsInteropExports must be passed***
 
